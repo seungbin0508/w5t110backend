@@ -1,0 +1,25 @@
+{
+  "name": "w5t110backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seungbin0508/w5t110backend.git"
+  },
+  "keywords": [
+    "cinema",
+    "CRUD",
+    "booking"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seungbin0508/w5t110backend/issues"
+  },
+  "homepage": "https://github.com/seungbin0508/w5t110backend#readme",
+  "type": "module"
+}
