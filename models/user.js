@@ -13,6 +13,11 @@ const userSchema = new mongoose.Schema({
 	hashed_password: {
 		type: String,
 		required: true
+	},
+	phone: {
+		type: String,
+		match: /01\d-\d{3,4}-\d{4}/,
+		required: true
 	}
 })
 
