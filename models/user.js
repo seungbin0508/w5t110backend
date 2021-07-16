@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
 		match: /^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-_.]?[0-9a-z])*\.[a-z]+/i,
 		required: true
 	},
-	hashed_password: {
+	password: {
 		type: String,
 		required: true
 		// todo 비밀번호 암호화 필요
@@ -32,4 +32,20 @@ const userSchema = new mongoose.Schema({
 	}
 })
 
+userSchema.pre('save', function (next) {
+	const user = this
+	// a newly created document would return true from this.isModified('password')
+	if (!user.isModified('password')) return next()
+
+	bcrypt.genSalt(Number(process.env.SALT_ROUNDS), function (err, salt) {
+		if (err) return next(err)
+
+		bcrypt.hash(user.password, salt, function(err, hash) {
+			if (err) return next(err)
+
+			user.password = hash
+			next()
+		})
+	})
+})
 export default mongoose.model('User', userSchema)
