@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import User from './user.js'
 
 const connect = () => {
 	if (process.env.NODE_ENV !== 'production') {
@@ -21,3 +22,5 @@ mongoose.connection.on('error', err => {
 })
 
 connect()
+
+export { User }
