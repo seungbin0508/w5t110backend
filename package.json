@@ -21,5 +21,8 @@
     "url": "https://github.com/seungbin0508/w5t110backend/issues"
   },
   "homepage": "https://github.com/seungbin0508/w5t110backend#readme",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
