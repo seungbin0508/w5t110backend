@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		match: /01\d-\d{3,4}-\d{4}/,
 		required: true
+	},
+	birthday: {
+		type: String,
+		match: /^\d{4}[01]\d[0-3]\d$/,
+		required: true
 	}
 })
 
