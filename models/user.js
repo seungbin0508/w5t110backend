@@ -27,21 +27,34 @@ const userSchema = new mongoose.Schema({
 	}
 })
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', async function (next) {
 	const user = this
 	// a newly created document would return true from this.isModified('password')
 	if (!user.isModified('password')) return next()
 
-	bcrypt.genSalt(Number(process.env.SALT_ROUNDS), function (err, salt) {
-		if (err) return next(err)
-
-		bcrypt.hash(user.password, salt, function(err, hash) {
+	/*
+		-----Former code using callback-----
+		bcrypt.genSalt(Number(process.env.SALT_ROUNDS), function (err, salt) {
 			if (err) return next(err)
 
-			user.password = hash
-			next()
+			bcrypt.hash(user.password, salt, function(err, hash) {
+				if (err) return next(err)
+
+				user.password = hash
+				next()
+			})
 		})
-	})
+	*/
+
+	// -----Enhanced code using async/await-----
+	try {
+		const salt = await bcrypt.genSalt(Number(process.env.SALT))
+		user.password = await bcrypt.hash(user.password, salt)
+		return next()
+	} catch (e) {
+		console.error(e)
+		return next(e)
+	}
 })
 // todo 입력받은 비밀번호 인증 필요
 // https://coderrocketfuel.com/article/store-passwords-in-mongodb-with-node-js-mongoose-and-bcrypt
