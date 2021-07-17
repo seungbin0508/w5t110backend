@@ -49,8 +49,8 @@ const lotteCinemaCrawler = async () => {
     );
 
     movie.comments = [];
-    let comments = {};
-    comments.comment = await page.$$eval(
+	  const comments = {}
+	  comments.comment = await page.$$eval(
       '#review_con_list2 .review_info',
       (elements) => {
         return elements.map((element) =>
@@ -134,7 +134,7 @@ const lotteCinemaCrawler = async () => {
     );
 
     movie.actors = [];
-    let actors = {};
+    const actors = {};
     actors.name = await page.$$eval(
       '#contents > ul > li.active > div > div.movie_detail_people > div.bx_list_people > ul .tit',
       (elements) => {
