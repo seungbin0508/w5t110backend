@@ -9,4 +9,5 @@ router.get('/')
 router.put('/:userId')
 
 router.delete('/:userId')
+
 export default router
