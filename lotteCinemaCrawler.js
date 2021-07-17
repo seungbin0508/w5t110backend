@@ -154,6 +154,13 @@ async function lotteCinemaCrawler() {
         });
       }
 
+      movie.specialCinemas = await page.$$eval(
+        '#contents > div > div.spacial_hall_info > span > img',
+        (elements) => {
+          return elements.map((element) => element.src);
+        }
+      );
+
       movie.viewers = await page.$eval(
         '#contents > div > ul.detail_info1 > li.sub_info3 > strong',
         (element) => {
@@ -206,28 +213,32 @@ async function lotteCinemaCrawler() {
           40: null,
         };
       }
+      try {
+        const trailersCnt = await page.$eval(
+          '#movie_trailer > h5.tit_info',
+          (element) => {
+            return Number(element.textContent.replace(/[^0-9]/g, ''));
+          }
+        );
 
-      const trailersCnt = await page.$eval(
-        '#movie_trailer > h5.tit_info',
-        (element) => {
-          return Number(element.textContent.replace(/[^0-9]/g, ''));
+        await page.click('#movie_trailer_0 > a');
+
+        const trailer = await page.$eval('#vdoPlayer', (element) => {
+          return element.src.split('.');
+        });
+
+        movie.trailers = [];
+
+        for (let i = 1; i < trailersCnt + 1; i++) {
+          trailer[trailer.length - 2] =
+            trailer[trailer.length - 2].slice(0, -1) + i;
+          movie.trailers.push(trailer.join('.'));
         }
-      );
 
-      await page.click('#movie_trailer_0 > a');
-
-      const trailer = await page.$eval('#vdoPlayer', (element) => {
-        return element.src.split('.');
-      });
-
-      movie.trailers = [];
-      for (i = 1; i < trailersCnt + 1; i++) {
-        trailer[trailer.length - 2] =
-          trailer[trailer.length - 2].slice(0, -1) + i;
-        movie.trailers.push(trailer.join('.'));
+        await page.keyboard.press('Escape');
+      } catch {
+        movie.trailers = null;
       }
-
-      await page.keyboard.press('Escape');
 
       movie.photos = await page.$$eval(
         '#movie_poster > div.stealcut_thumb_wrap > div > div > div.owl-stage-outer > div img',
@@ -237,7 +248,9 @@ async function lotteCinemaCrawler() {
       );
 
       movies.push(movie);
-      await page.goBack();
+      await page.goto('https://www.lottecinema.co.kr/NLCHS/Movie/List?flag=1', {
+        waitUntil: 'networkidle2',
+      });
     }
   }
   await browser.close();
