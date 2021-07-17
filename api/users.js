@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 router.get('/:userId', async (req, res) => {
 	const { userId } = req.params
 	try {
-		const user =  await User.findById(userId).select('-password')
+		const user = await User.findById(userId).select('-password')
 		res.send(user)
 	} catch (err) {
 		console.error(err)
