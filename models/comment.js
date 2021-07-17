@@ -13,7 +13,6 @@ const commentSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // defalt: Date.now.toLocaleDateString(),
   },
 })
 export default mongoose.model('Comment', commentSchema)
