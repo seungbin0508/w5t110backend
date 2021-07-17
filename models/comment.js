@@ -3,11 +3,17 @@ const mongoose = require('mongoose')
 const commentSchema = new mongoose.Schema({
   comment: String,
   name: String,
-  like: Number,
+  likedUsers: [
+    {
+      user: mongoose.Schema.ObjectId, // Todo 수정 예정
+      ref: 'User',
+    },
+  ],
   star: Number,
   createdAt: {
     type: Date,
     default: Date.now,
+    // defalt: Date.now.toLocaleDateString(),
   },
 })
-module.exports = mongoose.model('Comment', commentSchema)
+export default mongoose.model('Comment', commentSchema)
