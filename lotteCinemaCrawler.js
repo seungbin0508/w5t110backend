@@ -10,7 +10,7 @@ const lotteCineamCrawler = async () => {
   await page.goto('https://www.lottecinema.co.kr/NLCHS/#none', {
     waitUntil: 'networkidle2',
   });
-  let movies = [];
+  const movies = [];
   for (let i = 1; i < 6; i++) {
     if (i !== 5) {
       await page.click(
@@ -32,7 +32,7 @@ const lotteCineamCrawler = async () => {
 
     await page.waitForSelector('#contents > div > div.tit_info > strong');
 
-    let movie = {};
+    const movie = {};
 
     movie.title = await page.$eval(
       '#contents > div > div.tit_info > strong',
@@ -184,7 +184,7 @@ const lotteCineamCrawler = async () => {
       movie.preference.gender = await page.$eval(
         '#contents > ul > li.active > div > div.movi_tab_info1 > div.right_con > div > div.bx_graph01 > dl > dd.fem > strong',
         (element) => {
-          num = Number(element.textContent.replace(/[^0-9.]/g, '')) / 100;
+          const num = Number(element.textContent.replace(/[^0-9.]/g, '')) / 100;
           return num.toFixed(3);
         }
       );
