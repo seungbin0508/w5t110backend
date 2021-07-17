@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import util from 'util';
 
-const lotteCineamCrawler = async () => {
+const lotteCinemaCrawler = async () => {
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === 'develop',
   });
