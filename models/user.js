@@ -56,8 +56,6 @@ userSchema.pre('save', async function (next) {
 		return next(e)
 	}
 })
-// todo 입력받은 비밀번호 인증 필요
-// https://coderrocketfuel.com/article/store-passwords-in-mongodb-with-node-js-mongoose-and-bcrypt
 
 userSchema.methods.comparePassword = async function (password) {
 	try {
