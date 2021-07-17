@@ -10,7 +10,7 @@ async function lotteCinemaCrawler() {
     waitUntil: 'networkidle2',
   });
   const movies = [];
-  for (let i = 1; i < 2; i++) {
+  for (let i = 1; i < 12; i++) {
     if (i !== 5) {
       await page.click(
         `#contents > div > ul.movie_list.type2 > li:nth-child(${i}) > div.top_info > div > div > a:nth-child(2)`
@@ -241,5 +241,5 @@ async function lotteCinemaCrawler() {
     }
   }
   await browser.close();
-  return movies[0];
+  return movies;
 }
