@@ -24,8 +24,14 @@ router.get('/:userId', async (req, res) => {
 	}
 })
 
-router.put('/:userId', (req, res) => {
+router.put('/:userId', async (req, res) => {
 	const { userId } = req.params
+	try {
+		await User.findByIdAndUpdate(userId, req.body)
+	} catch (err) {
+		console.error(err)
+		res.status(400).json(err)
+	}
 })
 
 router.delete('/:userId', (req, res) => {
