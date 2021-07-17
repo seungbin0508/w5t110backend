@@ -7,9 +7,14 @@ const auth = (req, res, next) => {
 		errorMessage: '토큰이 없거나 Bearer 타입이 아닙니다.'
 	})
 
-	try { const decoded = jwt.verify(token, process.env.JWT_SECRET)} catch (e) {
+	try {
+		const decoded = jwt.verify(token, process.env.JWT_SECRET)
+	} catch (e) {
 		console.error(e)
-		next(e)
+		res.status(401).json({
+			error: e,
+			errorMessage: '토큰 인증을 실패했습니다.'
+		})
 	}
 }
 
