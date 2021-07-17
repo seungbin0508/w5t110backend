@@ -58,4 +58,13 @@ userSchema.pre('save', async function (next) {
 })
 // todo 입력받은 비밀번호 인증 필요
 // https://coderrocketfuel.com/article/store-passwords-in-mongodb-with-node-js-mongoose-and-bcrypt
+
+userSchema.methods.comparePassword = async function (password) {
+	try {
+		return bcrypt.compare(password, this.password)
+	} catch (e) {
+		console.error(e)
+	}
+}
+
 export default mongoose.model('User', userSchema)
