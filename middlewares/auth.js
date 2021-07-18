@@ -11,12 +11,11 @@ const auth = async (req, res, next) => {
 		// payload = { userId, name }
 		const payload = jwt.verify(token, process.env.JWT_SECRET)
 		const user = await User.findById(payload.userId)
-		user ? Object.assign(user, res.locals) : res.status(401).json({
-			errorMessage: '존재하지 않는 사용자입니다.'
-		})
-		//todo use userId to find user instance and pass it over through res.locals.userId and return next()
-		console.log(res.locals.user)
-		next()
+
+		if (!user) return res.status(401).json({ errorMessage: '존재하지 않는 사용자입니다.' })
+
+		res.locals.user = user
+		return next()
 	} catch (e) {
 		console.error(e)
 		res.status(401).json({
