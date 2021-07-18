@@ -1,7 +1,7 @@
 import express from 'express'
 import { User } from '../models/index.js'
-import smtpTransport from './email.js'
 import auth from '../middlewares/auth.js'
+import smtpTransport from '../services/email.js'
 
 const router = express.Router()
 
