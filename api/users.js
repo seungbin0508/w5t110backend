@@ -28,6 +28,7 @@ router.put('/:userId', async (req, res) => {
 	const { userId } = req.params
 	try {
 		await User.findByIdAndUpdate(userId, req.body)
+		res.sendStatus(200)
 	} catch (err) {
 		console.error(err)
 		res.status(400).json(err)
@@ -38,6 +39,7 @@ router.delete('/:userId', async (req, res) => {
 	const { userId } = req.params
 	try {
 		await User.findByIdAndDelete(userId)
+		res.sendStatus(200)
 	} catch (err) {
 		console.error(err)
 		res.status(400).json(err)
