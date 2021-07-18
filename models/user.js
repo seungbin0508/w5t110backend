@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
 		match: /^\d{4}[01]\d[0-3]\d$/,
 		required: true,
 		immutable: true
+	},
+	email_verified: {
+		type: Boolean,
+		required: true,
+		default: false
 	}
 })
 
