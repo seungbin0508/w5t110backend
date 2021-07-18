@@ -8,9 +8,11 @@ const auth = (req, res, next) => {
 	})
 
 	try {
-		const { userId } = jwt.verify(token, process.env.JWT_SECRET)
-
+		const payload = jwt.verify(token, process.env.JWT_SECRET)
+		Object.assign(payload, res.locals.user)
 		//todo use userId to find user instance and pass it over through res.locals.userId and return next()
+		console.log(res.locals.user)
+		next()
 	} catch (e) {
 		console.error(e)
 		res.status(401).json({
