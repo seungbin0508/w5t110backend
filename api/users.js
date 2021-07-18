@@ -13,8 +13,8 @@ router.post('/', async (req, res) => {
 		res.status(400).json(err)
 	}
 })
-
-router.get('/:userId', auth, async (req, res) => {
+router.use(auth)
+router.get('/:userId', async (req, res) => {
 	const { userId } = req.params
 	try {
 		const user = await User.findById(userId).select('-password')
