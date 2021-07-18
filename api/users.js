@@ -13,10 +13,15 @@ router.post('/', async (req, res) => {
 		res.status(400).json(err)
 	}
 })
+
+/** All methods but POST has to go through auth middleware **/
 router.use(auth)
+
 router.get('/:userId', async (req, res) => {
 	const { userId } = req.params
 	try {
+
+		// Remove unnecessary fields, i.e. password in this circumstances, for security issue.
 		const user = await User.findById(userId).select('-password')
 		res.send(user)
 	} catch (err) {
@@ -28,6 +33,8 @@ router.get('/:userId', async (req, res) => {
 router.put('/:userId', async (req, res) => {
 	const { userId } = req.params
 	try {
+
+		// Update everything that came in inside req.body
 		await User.findByIdAndUpdate(userId, req.body)
 		res.sendStatus(200)
 	} catch (err) {
