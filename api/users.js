@@ -8,13 +8,13 @@ const router = express.Router()
 router.post('/', async (req, res) => {
 	const { email } = req.body
 	try {
-		await User.create(req.body)
+		const { _id: userId } = await User.create(req.body)
 
 		const mailOptions = {
 			from: process.env.MAIL_ID,
 			to: email,
 			subject: '롯데 시네마 회원가입 인증 메일',
-			text: '메일 내용이 여기 들어갑니다.'
+			text: `인증코드: ${userId}`
 		}
 
 		await smtpTransport.sendMail(mailOptions, (err, info) => {
