@@ -4,12 +4,14 @@ import bcrypt from 'bcrypt'
 const userSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: true
+		required: true,
+		immutable: true
 	},
 	email: {
 		type: String,
 		match: /^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-_.]?[0-9a-z])*\.[a-z]+/i,
-		required: true
+		required: true,
+		immutable: true
 	},
 	password: {
 		type: String,
@@ -23,7 +25,8 @@ const userSchema = new mongoose.Schema({
 	birthday: {
 		type: String,
 		match: /^\d{4}[01]\d[0-3]\d$/,
-		required: true
+		required: true,
+		immutable: true
 	}
 })
 
