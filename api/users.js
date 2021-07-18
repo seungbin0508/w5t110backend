@@ -15,7 +15,16 @@ router.post('/', async (req, res) => {
 })
 
 /** All methods but POST has to go through auth middleware **/
-router.use(auth)
+router.all('/:userId', auth, (req, res, next) => {
+	const { userId } = req.params
+
+	// Ensure if the id in path and token are identical
+	if (userId !== String(res.locals.user._id)) {
+		return next(new Error('토큰의 아이디와 경로의 아이디가 다릅니다.'))
+	}
+
+	next()
+})
 
 router.get('/:userId', async (req, res) => {
 	const { userId } = req.params
