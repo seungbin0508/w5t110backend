@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
+import { User } from '../models/index.js'
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
 	const token = req.headers?.authorization?.split('Bearer ')?.[1]
 
 	if (!token) return res.status(401).json({
@@ -8,8 +9,12 @@ const auth = (req, res, next) => {
 	})
 
 	try {
+		// payload = { userId, name }
 		const payload = jwt.verify(token, process.env.JWT_SECRET)
-		Object.assign(payload, res.locals.user)
+		const user = await User.findById(payload.userId)
+		user ? Object.assgin(user, res.locals) : res.status(401).json({
+			errorMessage: '존재하지 않는 사용자입니다.'
+		})
 		//todo use userId to find user instance and pass it over through res.locals.userId and return next()
 		console.log(res.locals.user)
 		next()
@@ -23,3 +28,4 @@ const auth = (req, res, next) => {
 }
 
 export default auth
+
