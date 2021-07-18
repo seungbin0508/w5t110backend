@@ -1,5 +1,6 @@
 import express from 'express'
 import { User } from '../models/index.js'
+import smtpTransport from './email.js'
 import auth from '../middlewares/auth.js'
 
 const router = express.Router()
@@ -7,6 +8,17 @@ const router = express.Router()
 router.post('/', async (req, res) => {
 	try {
 		await User.create(req.body)
+
+		const mailOptions = {
+			from: process.env.MAIL_ID,
+			to: 'user@email.com',
+			subject: '메일 제목',
+			text: '메일 내용'
+		}
+
+		await smtpTransport.sendMail(mailOptions, (err, responses) => {
+
+		})
 		res.sendStatus(201)
 	} catch (err) {
 		console.log(err)
