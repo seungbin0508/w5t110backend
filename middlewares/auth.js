@@ -3,6 +3,7 @@ import { User } from '../models/index.js'
 
 const auth = async (req, res, next) => {
 	const token = req.headers?.authorization?.split('Bearer ')?.[1]
+
 	if (!token) return res.status(401).json({
 		errorMessage: '토큰이 없거나 Bearer 타입이 아닙니다.'
 	})
@@ -15,10 +16,12 @@ const auth = async (req, res, next) => {
 		if (!user) return res.status(401).json({ errorMessage: '존재하지 않는 사용자입니다.' })
 
 		res.locals.user = user
+
 		return next()
 	} catch (e) {
 		console.error(e)
-		res.status(401).json({
+
+		return res.status(401).json({
 			error: e,
 			errorMessage: '토큰 인증을 실패했습니다.'
 		})
