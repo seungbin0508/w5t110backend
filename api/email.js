@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-const smtpTransport = new nodemailer.createTransport({
+const smtpTransport = nodemailer.createTransport({
 	service: 'Gmail',
 	auth: {
 		user: process.env.MAIL_ID,
