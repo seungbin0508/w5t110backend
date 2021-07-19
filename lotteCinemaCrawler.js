@@ -38,46 +38,48 @@ async function lotteCinemaCrawler() {
         }
       );
 
-      movie.comments = [];
-      const comments = {};
-      comments.comment = await page.$$eval(
-        '#review_con_list2 .review_info',
-        (elements) => {
-          return elements.map((element) =>
-            element.textContent.replace(/\n/g, '')
-          );
-        }
-      );
+      /// 코멘트는 직접 작성하신다고 하셔서 일단 주석처리
+      
+      // movie.comments = [];
+      // const comments = {};
+      // comments.comment = await page.$$eval(
+      //   '#review_con_list2 .review_info',
+      //   (elements) => {
+      //     return elements.map((element) =>
+      //       element.textContent.replace(/\n/g, '')
+      //     );
+      //   }
+      // );
 
-      comments.name = await page.$$eval(
-        '#review_con_list2 .name_info',
-        (elements) => {
-          return elements.map((element) => element.textContent);
-        }
-      );
+      // comments.name = await page.$$eval(
+      //   '#review_con_list2 .name_info',
+      //   (elements) => {
+      //     return elements.map((element) => element.textContent);
+      //   }
+      // );
 
-      comments.date = await page.$$eval(
-        '#review_con_list2 .date_info',
-        (elements) => {
-          return elements.map((element) => element.textContent);
-        }
-      );
+      // comments.date = await page.$$eval(
+      //   '#review_con_list2 .date_info',
+      //   (elements) => {
+      //     return elements.map((element) => element.textContent);
+      //   }
+      // );
 
-      comments.rate = await page.$$eval(
-        '#review_con_list2 .top_info .txt_ic_score > strong',
-        (elements) => {
-          return elements.map((element) => Number(element.textContent));
-        }
-      );
+      // comments.rate = await page.$$eval(
+      //   '#review_con_list2 .top_info .txt_ic_score > strong',
+      //   (elements) => {
+      //     return elements.map((element) => Number(element.textContent));
+      //   }
+      // );
 
-      for (let i = 0; i < comments.name.length; i++) {
-        movie.comments.push({
-          name: comments.name[i],
-          rate: comments.rate[i],
-          comment: comments.comment[i],
-          date: comments.date[i],
-        });
-      }
+      // for (let i = 0; i < comments.name.length; i++) {
+      //   movie.comments.push({
+      //     name: comments.name[i],
+      //     rate: comments.rate[i],
+      //     comment: comments.comment[i],
+      //     date: comments.date[i],
+      //   });
+      // }
 
       movie.bookRate = await page.$eval(
         '#contents > div > ul.detail_info1 > li.sub_info2 > strong',
@@ -256,3 +258,5 @@ async function lotteCinemaCrawler() {
   await browser.close();
   return movies;
 }
+
+
