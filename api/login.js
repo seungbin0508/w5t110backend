@@ -9,10 +9,15 @@ router.post('/', async (req, res) => {
 		const { email, password } = req.body
 		const user = await User.findOne({ email })
 
-		// Check if user exists and input password is correct
 		if (!(user && user.comparePassword(password))) {
 			return res.status(400).json({
 				errorMessage: '잘못된 이메일 혹은 비밀번호입니다.'
+			})
+		}
+
+		if (!user.email_verified) {
+			return res.status(400).json({
+				errorMessage: '이메일 인증이 완료되지 않은 사용자입니다.'
 			})
 		}
 
