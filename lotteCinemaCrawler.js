@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import Movie from './models/movie.js'
+import {Movie} from './models/index.js'
 
 async function lotteCinemaCrawler() {
   const browser = await puppeteer.launch({
