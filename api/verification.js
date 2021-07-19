@@ -4,11 +4,19 @@
  */
 
 import express from 'express'
+import { User } from '../models/index.js'
 
 const router = express.Router()
 
-router.get('/:userId', (req, res) => {
-
+router.get('/:userId', async (req, res) => {
+	const { userId } = req.params
+	try {
+		await User.findByIdAndUpdate(userId, { email_verified: true })
+		return res.sendStatus(200)
+	} catch (e) {
+		console.error(e)
+		return res.status(400).json(e)
+	}
 })
 
 export default router
