@@ -1,6 +1,6 @@
 import express from 'express'
 import { Comment } from '../models/index.js'
-import auth from '../middlewares/auth'
+import auth from '../middlewares/auth.js'
 
 const router = express.Router()
 
