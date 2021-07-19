@@ -27,7 +27,7 @@ router.put('/:commnetId', auth, async (req, res) => {
   const { commentId } = req.params
   const { comment, star } = req.body
   try {
-    await User.findByIdAndUpdate(commentId, star, comment,) // Todo문법 확인 필요
+    await User.findByIdAndUpdate(commentId, { $set: { star, comment } }) // Todo문법 확인 필요
     res.send.status(200)
   } catch (err) {
     console.error(err)
