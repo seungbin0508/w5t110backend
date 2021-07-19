@@ -28,5 +28,4 @@ mongoose.connection.on('error', (err) => {
 
 connect()
 
-export { User }
-export { Comment }
+export { User, Comment }

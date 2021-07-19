@@ -10,9 +10,14 @@ router.post('/test', authMiddleware, async (req, res) => {
   const comment = new Comment({
     comment: req.body.comment,
     star: req.body.star,
-    name: user,
+    name: user
   })
   await comment.create({comment, star, res.locals.user._id})
 })
+
+router.delete('/', async (req, res) => {
+
+})
+
 
 export default router
