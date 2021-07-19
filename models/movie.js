@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import commentSchema from './comment.js'
+import Comment from './comment.js'
 const { Schema } = mongoose;
 
 const movieSchema = new Schema({
   title: String,
   grade: String,
-  comments: [commentSchema],
+  comments: [Comment.schema],
   bookRate: Number,
   genre: String,
   releaseDate: Date,
