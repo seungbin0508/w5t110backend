@@ -1,16 +1,36 @@
 import express from 'express'
 import { User } from '../models/index.js'
 import auth from '../middlewares/auth.js'
+import smtpTransport from '../services/email.js'
 
 const router = express.Router()
 
 router.post('/', async (req, res) => {
+	const { email } = req.body
 	try {
-		await User.create(req.body)
-		res.sendStatus(201)
+		const { _id: userId } = await User.create(req.body)
+
+		const mailOptions = {
+			from: process.env.MAIL_ID,
+			to: email,
+			subject: '롯데 시네마 회원가입 인증 메일',
+			text: `인증코드: ${userId}`
+		}
+
+		await smtpTransport.sendMail(mailOptions, (err, info) => {
+			if (err) {
+				console.error(err)
+				return res.status(400).json({
+					errorMessage: '회원 가입 인증 메일 발송을 실패했습니다.'
+				})
+			}
+			console.log(info.envelope)
+			console.log(info.messageId)
+			return res.sendStatus(201)
+		})
 	} catch (err) {
 		console.log(err)
-		res.status(400).json(err)
+		return res.status(400).json(err)
 	}
 })
 
