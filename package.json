@@ -28,7 +28,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.13.2",
     "nodemailer": "^6.6.3",
-    "puppeteer": "^10.1.0"
-    "jsonwebtoken": "^8.5.1",
+    "puppeteer": "^10.1.0",
+    "jsonwebtoken": "^8.5.1"
   }
 }
