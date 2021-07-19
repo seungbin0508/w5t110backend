@@ -5,7 +5,6 @@ const router = express.Router();
 
 
 router.get('/', (req, res, next) => {
-    const currentUserId = User.findById(res.locals.user?.name).select('_id')
     const [
         trailers,
         photos,
