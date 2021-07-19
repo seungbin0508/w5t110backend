@@ -23,11 +23,11 @@ router.post('/', auth, async (req, res) => {
 })
 
 // Todo 아직 미완 body에서 받아올 것과 param에서 받아올 것 
-router.put('/:id', auth, async (req, res) => {
-  //const commentId,
-  const { userId } = req.params
+router.put('/:commnetId', auth, async (req, res) => {
+  const { commentId } = req.params
+  const { comment, star } = req.body
   try {
-    await User.findByIdAndUpdate(userId, req.body)
+    await User.findByIdAndUpdate(commentId, star, comment,) // Todo문법 확인 필요
     res.send.status(200)
   } catch (err) {
     console.error(err)
@@ -36,8 +36,8 @@ router.put('/:id', auth, async (req, res) => {
 })
 
 // Todo 아직 미완 body에서 받아올 것과 param에서 받아올 것 
-router.delete('/', auth, async (req, res) => {
-  const { commnetId } = req.params
+router.delete('/:commentId', auth, async (req, res) => {
+  const { commentId } = req.params
   try {
     await Comment.findByIdAndDelete(commentId)
     res.send.status(200)
