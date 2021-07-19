@@ -1,6 +1,6 @@
 import express from 'express'
 import { Comment } from '../models/index.js'
-import auth from '../middlewares/auth'
+import auth from '../middlewares/auth.js'
 
 const router = express.Router()
 
@@ -24,7 +24,7 @@ router.post('/', auth, async (req, res) => {
 
 // Todo 아직 미완 body에서 받아올 것과 param에서 받아올 것 
 router.put('/:id', auth, async (req, res) => {
-  const commentId, 
+  //const commentId,
   const { userId } = req.params
   try {
     await User.findByIdAndUpdate(userId, req.body)

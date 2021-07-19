@@ -1,5 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import cors from 'cors'
 import './models/index.js'
 import router from './api/index.js'
 
@@ -9,6 +10,10 @@ const app = express()
 
 app.set('port', process.env.PORT)
 
+app.use(cors({
+	origin: 'http://localhost',
+	credentials: true
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

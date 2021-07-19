@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const commentSchema = new mongoose.Schema({
   comment: { type: String, required: true },
@@ -8,7 +8,7 @@ const commentSchema = new mongoose.Schema({
   },
   likedUsers: [
     {
-      userId: mongoose.Schema.ObjectId, // Todo 수정 예정
+      type: mongoose.Schema.ObjectId, // Todo 수정 예정
       ref: 'User',
     },
   ],
