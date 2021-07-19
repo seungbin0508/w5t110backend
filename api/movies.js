@@ -4,14 +4,14 @@ import User from '../models/user.js'
 const router = express.Router();
 
 
-router.get('/', auth, (req, res, next) => {
+router.get('/', (req, res, next) => {
     const currentUserId = User.findById(res.locals.user?.name).select('_id')
     const [
         trailers,
         photos,
         bookRates,
         rates,
-        likeOrNots
+        likedUsers
     ] = Movie.find().select('-_id trailers photos bookRate ratings.rating likedUsers rate').exec((e, values) => {
         if (e) return res.status(400).send({response:'Failed to get data'})
         return [
@@ -19,10 +19,10 @@ router.get('/', auth, (req, res, next) => {
             values.map(value=>value.photos[value.photos.length-1]),
             values.map(value=>value.bookRate),
             values.map(value=>value.rate),
-            values.map(value=>value.likedUsers.includes(currentUserId))
+            values.map(value=>value.likedUsers)
         ]
     })
-    res.status(200).json({ response : trailers, photos, bookRates, rates, likeOrNots })
+    res.status(200).json({ response : trailers, photos, bookRates, rates, likedUsers })
 });
 
 // populate
