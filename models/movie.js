@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import commentSchema from './comment.js'
 const { Schema } = mongoose;
 
 const movieSchema = new Schema({
@@ -42,6 +43,10 @@ const movieSchema = new Schema({
   },
   trailers: [String],
   photos: [String],
+},
+{
+  toObject:{ virtuals: true}, 
+  toJson:{ virtuals: true}
 });
 
 movieSchema.static('replaceAllDocuments', async function (docs) {
@@ -52,5 +57,12 @@ movieSchema.static('replaceAllDocuments', async function (docs) {
     await this.insertMany(docs, { ordered: false });
   }
 });
+
+movieSchema.virtual('rate').get(function() {
+  return !(this.ratings.length )? 0 : 
+    Number(((this.ratings.reduce((acc, curr) => {
+      return acc + curr.rating
+    },0))/this.ratings.length).toFixed(1))
+})
 
 export default mongoose.model('Movie', movieSchema);
