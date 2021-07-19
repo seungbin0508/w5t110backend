@@ -13,11 +13,38 @@ router.post('/', auth, async (req, res) => {
     star: req.body.star,
     userId: user,
   })
-  await comment.create({ comment, star, userId })
+  try {
+    await comment.create({ comment, star, userId })
+    res.send.status(200)
+  } catch (err) {
+    console.error(err)
+    res.status(400).json(err)
+  }
 })
 
-router.put('/', auth, async (req, res) => {})
+// Todo 아직 미완 body에서 받아올 것과 param에서 받아올 것 
+router.put('/:id', auth, async (req, res) => {
+  const commentId, 
+  const { userId } = req.params
+  try {
+    await User.findByIdAndUpdate(userId, req.body)
+    res.send.status(200)
+  } catch (err) {
+    console.error(err)
+    res.status(400).json(err)
+  }
+})
 
-router.delete('/', auth, async (req, res) => {})
+// Todo 아직 미완 body에서 받아올 것과 param에서 받아올 것 
+router.delete('/', auth, async (req, res) => {
+  const { commnetId } = req.params
+  try {
+    await Comment.findByIdAndDelete(commentId)
+    res.send.status(200)
+  } catch (err) {
+    console.error(err)
+    res.status(400).json(err)
+  }
+})
 
 export default router
