@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import Movie from './models/movie.js'
 
 async function lotteCinemaCrawler() {
   const browser = await puppeteer.launch({
@@ -258,5 +259,7 @@ async function lotteCinemaCrawler() {
   await browser.close();
   return movies;
 }
+const movies = await lotteCinemaCrawler() 
+await Movie.replaceAllDocuments(movies)
 
 
