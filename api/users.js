@@ -10,11 +10,86 @@ router.post('/', async (req, res) => {
 	try {
 		const { _id: userId } = await User.create(req.body)
 
+		const template = `
+<div style=" font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+sans-serif;">
+
+<div
+	style="
+		color: #2d3436;
+		display: flex;
+		justify-content: center;
+		background-color: #ecf0f1;
+		height: 390px;
+		width: 500px;
+		border-radius: 10px;
+	"
+>
+	<div class="sub-container">
+		<div>
+			<img
+				style="width: 80px"
+				class="image"
+				src="https://www.dogdrip.net/dvs/c/20/01/29/d63b61ccdd1fbe519c992782a2e1fac1.png"
+				alt=""
+			/>
+		</div>
+		<div style="color: #2d3436">
+			<h1 style="font-size: 20px">이메일 주소 인증</h1>
+			<link style="font-size: 10px" />
+			<span style="font-size: 15px"
+				>저희 서비스를 이용해주셔서 감사합니다 👋
+			</span>
+			<div>
+				<span style="font-size: 15px"
+					>고객님, 아래 버튼을 클릭하여 이메일 인증을
+					완료해주세요.
+				</span>
+			</div>
+
+			<button
+				style="
+					margin: 25px 0 0 0;
+					width: 120px;
+					height: 40px;
+					background-color: rgb(60, 117, 238);
+					border: none;
+					border-radius: 5px;
+					color: white;
+					font-weight: 600;
+					font-size: 15px;
+				"
+			>
+				<a
+					target="_blank"
+					style="color: #ecf0f1; text-decoration: none"
+					href="http://13.209.84.245/verification/${userId}"
+					>이메일 인증하기</a
+				>
+			</button>
+
+			<div style="color: #2d3436; font-size: 15px">
+				<p>가입을 시도하지 않으셨나요?</p>
+				<a
+					style="text-decoration: none"
+					href="https://www.w3schools.com/css/css_howto.asp"
+					>온라인 고객센터 바로가기</a
+				>
+			</div>
+			<div>
+				<span>- The Future of Penguin Cinema -</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+		`
 		const mailOptions = {
 			from: process.env.MAIL_ID,
 			to: email,
 			subject: '롯데 시네마 회원가입 인증 메일',
-			text: `인증하려면 다음 링크를 여세요: http://13.209.84.245/verification/${userId}`
+			html: template
 		}
 
 		await smtpTransport.sendMail(mailOptions, (err, info) => {
