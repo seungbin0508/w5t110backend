@@ -1,13 +1,19 @@
 import express from 'express'
-// import Comment from '../models/comment.js'
 import auth from '../middlewares/auth.js'
-import movie from '../models/movie.js'
 import Movie from '../models/movie.js'
 
 const router = express.Router()
 
 router.post('/', auth, async (req, res) => {
   try {
+    if (req.body.comment.length === 0) {
+      res.status(400).send('코멘트를 입력해주세요!')
+      return
+    }
+    if (req.body.star == 'undefined') {
+      res.status(400).send('평점을 입력해주세요!')
+      return
+    }
    await Movie.findByIdAndUpdate(
       req.body.movieId,
       {$push:
@@ -29,11 +35,19 @@ router.post('/', auth, async (req, res) => {
 router.put('/:commentId', auth, async (req, res) => {
   const { commentId } = req.params
   const { comment, star, movieId } = req.body
-  
   try {
-    await Movie.updateOne( 
+    if (req.body.comment.length === 0) {
+      res.status(400).send('코멘트를 입력해주세요!')
+      return
+    }
+    if (req.body.star.length === 0) {
+      res.status(400).send('평점을 입력해주세요!')
+      return
+    }
+    await Movie.updateMany( 
       {_id: movieId, 'comments._id':commentId}, 
-      {$set:{"comments.$.comment": comment }})
+      {$set:{"comments.$.comment": comment, "comments.$.star": star }}
+      )
     res.status(200).send()
   } catch (err) {
     console.error(err)
@@ -44,11 +58,14 @@ router.put('/:commentId', auth, async (req, res) => {
 router.delete('/:commentId', auth, async (req, res) => {
   const { commentId } = req.params
   try {
+    if ( req.body.movieId.length === 0 ) {
+      res.status(400).send('해당 영화를 찾을 수 없습니다.!')
+      return
+    }
     await Movie.findByIdAndUpdate(
       req.body.movieId,
       {$pull:{comments:{_id : commentId}}}
       )
-
     res.status(200).send()
   } catch (err) {
     console.error(err)
