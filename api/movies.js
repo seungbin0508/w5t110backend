@@ -1,6 +1,6 @@
 import express from 'express';
 import Movie from '../models/movie.js';
-'
+
 const router = express.Router();
 
 
@@ -33,7 +33,7 @@ router.get('/', (req, res, next) => {
 router.get('/:movieId', (req, res, next) => {
     const {movieId} = req.params;
     try{
-    const movieDetails = Movie.findByID(movieId).populate('ratings.user').populate('likedUsers')
+    const movieDetails = Movie.findById(movieId).populate('ratings.user').populate('likedUsers')
     res.status(200).json({ response: movieDetails})
     } catch (e) {
         res.status(400).send({ response:'Failed to get data' })
