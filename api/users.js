@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
 			from: process.env.MAIL_ID,
 			to: email,
 			subject: '롯데 시네마 회원가입 인증 메일',
-			text: `인증하려면 다음 링크를 여세요: http://localhost:3000/verification/${userId}`
+			text: `인증하려면 다음 링크를 여세요: http://13.209.84.245/verification/${userId}`
 		}
 
 		await smtpTransport.sendMail(mailOptions, (err, info) => {
