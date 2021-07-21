@@ -13,8 +13,8 @@ mongoose.connect(
 	'mongodb://localhost:27017/admin',
 	{
 		dbName: 'lotte',
-		user: 'sbk',
-		pass: 'hangh@e99',
+		user:'sbk',
+		pass:'hangh@e99',
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	},

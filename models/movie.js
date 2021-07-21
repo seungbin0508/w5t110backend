@@ -25,14 +25,13 @@ const movieSchema = new Schema({
   viewers: Number,
   ratings: [
     {
-      user: { type: Schema.Types.ObjectId, unique: true, ref: 'User' },
+      user: { type: Schema.Types.ObjectId, ref: 'User' },
       rating: Number,
     },
   ],
   likedUsers: [
     {
       type: Schema.Types.ObjectId,
-      unique: true,
       ref: 'User',
     },
   ],
