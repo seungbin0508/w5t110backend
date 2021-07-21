@@ -6,12 +6,16 @@ const router = express.Router()
 
 router.post('/', auth, async (req, res) => {
   try {
-    if (req.body.comment.length === 0) {
-      res.status(400).send('코멘트를 입력해주세요!')
+    if ( req.body.movieId.length === 0 ) {
+      res.status(400).send('해당 영화를 찾을 수 없습니다.!')
       return
     }
-    if (req.body.star == 'undefined') {
-      res.status(400).send('평점을 입력해주세요!')
+    if (req.body.comment.length === 0) {
+      res.status(400).json({ errorMessage: '관람평을 입력해 주세요!'})
+      return
+    }
+    if (req.body.star.length === 0) {
+      res.status(400).json({ errorMessage: '평점을 클릭해 주세요!'})
       return
     }
    await Movie.findByIdAndUpdate(
@@ -36,12 +40,16 @@ router.put('/:commentId', auth, async (req, res) => {
   const { commentId } = req.params
   const { comment, star, movieId } = req.body
   try {
+    if ( req.body.movieId.length === 0 ) {
+      res.status(400).send('해당 영화를 찾을 수 없습니다.!')
+      return
+    }
     if (req.body.comment.length === 0) {
-      res.status(400).send('코멘트를 입력해주세요!')
+      res.status(400).json({ errorMessage: '관람평을 입력해 주세요!'})
       return
     }
     if (req.body.star.length === 0) {
-      res.status(400).send('평점을 입력해주세요!')
+      res.status(400).json({ errorMessage: '평점을 클릭해 주세요!'})
       return
     }
     await Movie.updateMany( 
