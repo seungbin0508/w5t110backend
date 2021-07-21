@@ -21,10 +21,10 @@ router.get('/', async (req, res, next) => {
 
 
 // populate
-router.get('/:movieId', (req, res, next) => {
+router.get('/:movieId', async(req, res, next) => {
     const {movieId} = req.params;
     try{
-    const movieDetails = Movie.findById(movieId).populate('ratings.user').populate('likedUsers')
+    const movieDetails = await Movie.findById(movieId).populate('ratings.user').populate('likedUsers')
     res.status(200).json({ response: movieDetails})
     } catch (e) {
         res.status(400).send({ response:'Failed to get data' })
