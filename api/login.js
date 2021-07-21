@@ -9,7 +9,16 @@ router.post('/', async (req, res) => {
 		const { email, password } = req.body
 		const user = await User.findOne({ email })
 
-		if (!(user && user.comparePassword(password))) {
+		// Invalid email
+		if (!user) {
+			return res.status(400).json({
+				errorMessage: '잘못된 이메일 혹은 비밀번호입니다.'
+			})
+		}
+
+		// Invalid password
+		const passwordValid = await user.comparePassword(password)
+		if (!passwordValid) {
 			return res.status(400).json({
 				errorMessage: '잘못된 이메일 혹은 비밀번호입니다.'
 			})
