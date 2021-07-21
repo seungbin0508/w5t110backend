@@ -8,6 +8,12 @@ const router = express.Router()
 router.post('/', async (req, res) => {
 	const { email } = req.body
 	try {
+		const duplicate = await User.find({email})
+		if (duplicate) {
+			return res.status(400).json({
+				errorMessage: '중복된 이메일입니다.'
+			})
+		}
 		const { _id: userId } = await User.create(req.body)
 
 		const template = `
