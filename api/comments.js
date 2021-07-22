@@ -64,7 +64,14 @@ router.get('/:commentId', auth, async (req, res) => {
 })
 
 router.post('/', auth, async (req, res) => {
+  const find = await Movie.findById(req.body.movieId)
+  const commentUser = await find.comments.filter(function (comment) {
+  return comment.userId == res.locals.user.id })
   try {
+    if (commentUser.length != 0) {
+      res.status(400).json({ errorMessage: '이미 관람평을 등록한 사용자입니다.' })
+      return
+    }
     if (req.body.movieId.length === 0) {
       res.status(400).json({ errorMessage: '해당 영화를 찾을 수 없습니다.' })
       return
