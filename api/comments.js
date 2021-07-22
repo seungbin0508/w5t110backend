@@ -80,6 +80,7 @@ router.post('/', auth, async (req, res) => {
     await Movie.findByIdAndUpdate(req.body.movieId, {
       $push: {
         comments: {
+          userName : res.locals.user.name,
           comment: req.body.comment,
           star: req.body.star,
           userId: res.locals.user._id,
