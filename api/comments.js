@@ -4,6 +4,51 @@ import Movie from '../models/movie.js'
 
 const router = express.Router()
 
+router.post('/:commentId/like' , auth, async (req, res) => {
+  const userId = res.locals.user._id
+  const {movieId} = req.body
+  const {commentId} = req.params
+  const find = await Movie.findById(movieId)
+
+  const comment = await find.comments.filter(function (comment) { return comment._id == commentId })
+
+  if (!comment[0].likedUsers.includes(userId))
+  {
+    await Movie.updateOne( 
+      {_id: movieId, 'comments._id':commentId}, 
+      { $push:{"comments.$.likedUsers": userId }}
+      )
+      const find = await Movie.findById(movieId)
+      const likedUsersLength = find.comments.filter(function (comment) { return comment._id == commentId })[0].likedUsers.length
+      console.log(likedUsersLength)
+      res.status(200).json({ likedUsersLength })
+      return
+  }
+  if (comment[0].likedUsers.includes(userId))
+  {
+    await Movie.updateOne( 
+      {_id: movieId, 'comments._id':commentId}, 
+      { $pull:{"comments.$.likedUsers": userId }}
+      )
+      const find = await Movie.findById(movieId)
+      const likedUsersLength = find.comments.filter(function (comment) { return comment._id == commentId })[0].likedUsers.length
+      console.log(likedUsersLength)
+      res.status(200).json({ likedUsersLength })
+      return
+  }
+})
+
+// router.get('/:commentId', auth, async (req, res) => {
+//   const { commentId } = req.params
+//   const { movieId } = req.body
+//   const find = await Movie.findById(movieId)  
+//   const comment = find.comments.filter(function (comment) { return comment._id == commentId })
+//   console.log(comment)
+//   res.status(200).json({ comment })
+
+//   res.status(400).json({ errorMessage: '평점을 클릭해 주세요!'})
+// })
+
 router.post('/', auth, async (req, res) => {
   try {
     if ( req.body.movieId.length === 0 ) {
