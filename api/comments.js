@@ -49,16 +49,19 @@ router.post('/:commentId/like', auth, async (req, res) => {
   }
 })
 
-// router.get('/:commentId', auth, async (req, res) => {
-//   const { commentId } = req.params
-//   const { movieId } = req.body
-//   const find = await Movie.findById(movieId)
-//   const comment = find.comments.filter(function (comment) { return comment._id == commentId })
-//   console.log(comment)
-//   res.status(200).json({ comment })
-
-//   res.status(400).json({ errorMessage: '평점을 클릭해 주세요!'})
-// })
+router.get('/:commentId', auth, async (req, res) => {
+  const { commentId } = req.params
+  const { movieId } = req.body
+  try {
+  const find = await Movie.findById(movieId)
+  const comment = find.comments.filter(function (comment) { return comment._id == commentId })
+  console.log(comment)
+  res.status(200).json({ comment })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json(err)
+  }
+})
 
 router.post('/', auth, async (req, res) => {
   try {
